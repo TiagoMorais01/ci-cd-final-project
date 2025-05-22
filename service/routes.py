@@ -7,19 +7,11 @@ from service.common import status
 
 COUNTER = {}
 
-
-############################################################
-# Health Endpoint
-############################################################
 @app.route("/health")
 def health():
     """Health Status"""
     return jsonify(dict(status="OK")), status.HTTP_200_OK
 
-
-############################################################
-# Index page
-############################################################
 @app.route("/")
 def index():
     """Returns information abut the service"""
@@ -31,10 +23,6 @@ def index():
         url=url_for("list_counters", _external=True),
     )
 
-
-############################################################
-# List counters
-############################################################
 @app.route("/counters", methods=["GET"])
 def list_counters():
     """Lists all counters"""
@@ -44,10 +32,6 @@ def list_counters():
 
     return jsonify(counters)
 
-
-############################################################
-# Create counters
-############################################################
 @app.route("/counters/<name>", methods=["POST"])
 def create_counters(name):
     """Creates a new counter"""
@@ -65,10 +49,6 @@ def create_counters(name):
         {"Location": location_url},
     )
 
-
-############################################################
-# Read counters
-############################################################
 @app.route("/counters/<name>", methods=["GET"])
 def read_counters(name):
     """Reads a single counter"""
@@ -80,10 +60,6 @@ def read_counters(name):
     counter = COUNTER[name]
     return jsonify(name=name, counter=counter)
 
-
-############################################################
-# Update counters
-############################################################
 @app.route("/counters/<name>", methods=["PUT"])
 def update_counters(name):
     """Updates a counter"""
@@ -97,10 +73,6 @@ def update_counters(name):
     counter = COUNTER[name]
     return jsonify(name=name, counter=counter)
 
-
-############################################################
-# Delete counters
-############################################################
 @app.route("/counters/<name>", methods=["DELETE"])
 def delete_counters(name):
     """Deletes a counter"""
@@ -111,12 +83,8 @@ def delete_counters(name):
 
     return "", status.HTTP_204_NO_CONTENT
 
-
-############################################################
-# Utility for testing
-############################################################
 def reset_counters():
     """Removes all counters while testing"""
-    global COUNTER  # pylint: disable=global-statement
+    global COUNTER
     if app.testing:
         COUNTER = {}
